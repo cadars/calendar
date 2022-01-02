@@ -62,10 +62,10 @@
     width: 23.8em; /* Adjust table width here */
 		border-collapse: collapse;
     table-layout: fixed;
-    text-align:center;
+    text-align: center;
 	}
 	th, td {
-    color:var(--ink-light);
+    color: var(--ink-light);
 	}
   th {   
     font-size: .9em;
@@ -73,25 +73,29 @@
     padding-bottom: 1em;
   } 
   td {
+    border: 1px dotted transparent;
     padding-top: .2em;
   }
   th:hover {
     color: inherit;
     font-weight: bold;
   }
+  table:hover td:not(:empty) {
+    border-color: var(--ink-light);
+  }
   td:not(:empty):hover {
     background: var(--ink);
     color: var(--paper);
-    border-radius: 2px;
-    transform: scale(1.3);
+    border-style: solid;
     font-weight: normal;
     cursor: crosshair;
+    transform: scale(1.3);
   }
 	td:empty {
 		border: 0;
 	}
 	.weekend {
-    font-weight:bold;
+    font-weight: bold;
     color: var(--ink);
 	}
 	</style>
