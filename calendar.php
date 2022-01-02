@@ -48,18 +48,18 @@
 	body {
     color: var(--ink);
     background: var(--paper);
-    font-size: 17px;
-		line-height: 1.6;
+    font-size: 18px;
+		line-height: 1.5;
     font-family: 'Terminal Land Mono Sans', Menlo, 'Lucida Grande', system-ui, sans-serif;
     display: flex;
     gap: 4ch;
     padding: 4ch;
 	}
   h1 {
-    font-size: .9em;
+    font-size: .85em;
   }
 	table {
-    width: 23.8em; /* Adjust table width here */
+    width: 23.2em; /* Adjust table width here */
 		border-collapse: collapse;
     table-layout: fixed;
     text-align: center;
@@ -68,13 +68,13 @@
     color: var(--ink-light);
 	}
   th {   
-    font-size: .9em;
+    font-size: .85em;
     font-weight: normal;
     padding-bottom: 1em;
   } 
   td {
     border: 1px dotted transparent;
-    padding-top: .2em;
+    padding-top: .3em;
   }
   th:hover {
     color: inherit;
@@ -89,7 +89,7 @@
     border-style: solid;
     font-weight: normal;
     cursor: crosshair;
-    transform: scale(1.3);
+    transform: scale(1.25);
   }
 	td:empty {
 		border: 0;
