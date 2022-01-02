@@ -30,103 +30,81 @@
 	<meta property="og:title" content="Calendar">
 	<meta property="og:url" content="https://neatnik.net/calendar">
 	<meta property="og:description" content="A simple printable calendar with the full year on a single page">
-	<style>
-	@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400&display=swap');
-	@import url('https://rsms.me/inter/inter.css');
-	@media print {
-		#info {
-			display: none;
-		}
+  <link rel="stylesheet" href="fonts/terminal-land-mono-sans/stylesheet.css">
+  <style>
+	* {
+	  margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+		color-adjust: exact;
+		-webkit-print-color-adjust: exact;
+    
+    /* Colors */
+    --ink:        #111;
+    --ink-light:  #777;
+    --paper:      #fff;
+    
 	}
-	html {
-		font-family: 'Oswald';
+	body {
+    color: var(--ink);
+    background: var(--paper);
+    font-size: 17px;
+		line-height: 1.6;
+    font-family: 'Terminal Land Mono Sans', Menlo, 'Lucida Grande', system-ui, sans-serif;
+    display: flex;
+    gap: 4ch;
+    padding: 4ch;
 	}
-	html, body {
-		height: 100%;
-		margin: 0;
-		padding: 0;
-	}
+  h1 {
+    font-size: .9em;
+  }
 	table {
-		width: 100%;
-		height: calc(100% - 2.5em);
-		border-collapse: separate;
-		border-spacing: .5em 0;
+    width: 23.8em; /* Adjust table width here */
+		border-collapse: collapse;
+    table-layout: fixed;
+    text-align:center;
 	}
-	td, th {
-		font-weight: normal;
-		text-transform: uppercase;
-		border-bottom: 1px solid #888;
-		padding: .3vmin .3vmin;
-		font-size: .9vmin;
-		font-weight: 300;
-		color: #000;
+	th, td {
+    color:var(--ink-light);
 	}
-	th {
-		font-size: 1.1vmin;
-		padding: 0;
-	}
+  th {   
+    font-size: .9em;
+    font-weight: normal;
+    padding-bottom: 1em;
+  } 
+  td {
+    padding-top: .2em;
+  }
+  th:hover {
+    color: inherit;
+    font-weight: bold;
+  }
+  td:not(:empty):hover {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 2px;
+    transform: scale(1.3);
+    font-weight: normal;
+    cursor: crosshair;
+  }
 	td:empty {
 		border: 0;
 	}
-	.date {
-		display: inline-block;
-		width: 1.1em;
-	}
-	.day {
-		display: inline-block;
-		text-align: center;
-		width: 1em;
-		color: #888;
-	}
 	.weekend {
-		background: #eee;
-		font-weight: 400;
-	}
-	p {
-		margin: 0 0 .5em 0;
-		text-align: center;
-	}
-	* {
-		color-adjust: exact;
-		-webkit-print-color-adjust: exact;
-	}
-	#info {
-		display: none;
-		font-family: 'Inter', sans-serif;
-		position: absolute;
-		top: 0;
-		left: 0;
-		margin: 5em 2em;
-		width: calc(100% - 6em);
-		background: #333;
-		color: #eee;
-		padding: 1em 1em .5em 1em;
-		font-size: 2vmax;
-		border-radius: .2em;
-	}
-	#info p {
-		text-align: left;
-		margin: 0 0 1em 0;
-		line-height: 135%;
-	}
-	#info a {
-		color: inherit;
+    font-weight:bold;
+    color: var(--ink);
 	}
 	</style>
 	</head>
 	<body>
-	<div id="info">
-	<p>👋 <strong>Hello!</strong> If you print this page, you’ll get a nifty calendar that displays all of the year’s dates on a single page. It will automatically fit on a single sheet of paper of any size. For best results, adjust your print settings to landscape orientation and disable the header and footer.</p>
-	<p>Take in the year all at once. Fold it up and carry it with you. Jot down your notes on it. Plan things out and observe the passage of time. Above all else, be kind to others.</p>
-	<p style="font-size: 80%; color: #999;">Made by <a href="https://neatnik.net/">Neatnik</a> &#183; Source on <a href="https://github.com/neatnik/calendar">GitHub</a></p>
-	</div>
 	<?php
 	date_default_timezone_set('UTC');
 	$now = isset($_REQUEST['year']) ? strtotime($_REQUEST['year'].'-01-01') : time();
 	$dates = array();
 	$month = 1;
 	$day = 1;
-	echo '<p>'.date('Y', $now).'</p>';
+  
+	echo '<h1>'.date('Y', $now).'</h1>';
 	echo '<table>';
 	echo '<thead>';
 	echo '<tr>';
@@ -180,65 +158,31 @@
 	
 	$month = 1;
 	$day = 1;
-	
-	if($_REQUEST['layout'] == 'aligned-weekdays') {
-		// Start the outer loop around 42 days (6 weeks at 7 days each)
-		while($day <= 42) {
-			echo '<tr>';
-			// Start the inner loop around 12 months
-			while($month <= 12) {
-				if($dates[$month][$day] == 0) {
-					echo '<td></td>';
-				}
-				else {
-					
-					$date = date('Y', $now).'-'.str_pad($month, 2, '0', STR_PAD_LEFT).'-'.str_pad($dates[$month][$day], 2, '0', STR_PAD_LEFT);
-					if(date('N', strtotime($date)) == '7') {
-						echo '<td class="weekend">';
-					}
-					else {
-						echo '<td>';
-					}
-					echo $dates[$month][$day];
-					echo '</td>';
-				}
-				$month++;
+
+	while($day <= 42) {
+		echo '<tr>';
+		// Start the inner loop around 12 months
+		while($month <= 12) {
+			if($dates[$month][$day] == 0) {
+				echo '<td></td>';
 			}
-			echo '</tr>';
-			$month = 1;
-			$day++;
-		}
-		
-	}
-	
-	else {
-		// Start the outer loop around 31 days
-		while($day <= 31) {
-			echo '<tr>';
-			// Start the inner loop around 12 months
-			while($month <= 12) {
-				// If we’ve reached a point in the date matrix where the resulting date would be invalid (e.g. February 30th), leave the cell blank
-				if($day > cal_days_in_month(CAL_GREGORIAN, $month, date('Y', $now))) {
-					echo '<td></td>';
-					$month++;
-					continue;
-				}
-				// If the day falls on a weekend, apply a specific class for styles
-				if(DateTime::createFromFormat('!Y-m-d', date('Y', $now).'-'.$month.'-'.$day)->format('N') == 6 || DateTime::createFromFormat('!Y-m-d', date('Y', $now).'-'.$month.'-'.$day)->format('N') == 7) {
+			else {
+				
+				$date = date('Y', $now).'-'.str_pad($month, 2, '0', STR_PAD_LEFT).'-'.str_pad($dates[$month][$day], 2, '0', STR_PAD_LEFT);
+				if(date('N', strtotime($date)) == '7') {
 					echo '<td class="weekend">';
 				}
 				else {
 					echo '<td>';
 				}
-				// Display the day number and day of the week
-				echo '<span class="date">'.$day.'</span> <span class="day">'.substr(DateTime::createFromFormat('!Y-m-d', date('Y', $now).'-'.$month.'-'.$day)->format('D'), 0, 1).'</span>';
+				echo $dates[$month][$day];
 				echo '</td>';
-				$month++;
 			}
-			echo '</tr>';
-			$month = 1;
-			$day++;
+			$month++;
 		}
+		echo '</tr>';
+		$month = 1;
+		$day++;
 	}
 	
 	?>
